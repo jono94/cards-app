@@ -1,3 +1,21 @@
+/*
+Need to mirror the global.css file here.
+
+From the Docs (https://reactnativereusables.com/docs/customization#themets):
+```
+Exports the same colors from `global.css` as a TypeScript object, so you can use them in logic, inline styles, or animations.
+Also includes `NAV_THEME` for the ThemeProvider in `_layout.tsx`.
+
+If you update a CSS variable, update `theme.ts` as well.
+
+Tip: After updating CSS variables in `global.css`, use this prompt to sync `theme.ts`:
+
+"Read CSS variables under `:root` and `.dark:root` in `global.css`.
+Update the `light` and `dark` entries in the `THEME` object in `theme.ts` to match these values in HSL format.
+Keep all keys and `NAV_THEME` unchanged.
+Add new variables if missing; comment stale ones if no matching CSS variable exists. Maintain the original formatting and key order.
+```
+*/
 import { DarkTheme, DefaultTheme, type Theme } from "@react-navigation/native";
 
 export const THEME = {
