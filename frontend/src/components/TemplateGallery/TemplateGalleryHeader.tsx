@@ -1,0 +1,37 @@
+import { View } from "react-native";
+import { Text } from "@/src/components/ui/text";
+import { ToggleGroup, ToggleGroupItem, ToggleGroupIcon } from "@/src/components/ui/toggle-group";
+import { Grid2x2, List } from "lucide-react-native";
+
+interface Props {
+  cardStyle: "card" | "list";
+  onCardStyleChange: (value: "card" | "list") => void;
+}
+
+export default function TemplateGalleryHeader({ cardStyle, onCardStyleChange }: Props) {
+  const onValueChange = (value: string | undefined) => {
+    if (value === "card" || value === "list") {
+      onCardStyleChange(value as "card" | "list");
+    }
+  };
+
+  return (
+    <View className="flex-row items-center justify-between px-4 py-2">
+      <Text>Template Gallery Header</Text>
+      <ToggleGroup
+        value={cardStyle}
+        size="lg"
+        onValueChange={onValueChange}
+        variant="outline"
+        type="single"
+      >
+        <ToggleGroupItem isFirst value="card">
+          <ToggleGroupIcon as={Grid2x2} />
+        </ToggleGroupItem>
+        <ToggleGroupItem isLast value="list">
+          <ToggleGroupIcon as={List} />
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </View>
+  );
+}
