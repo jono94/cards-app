@@ -2,6 +2,7 @@ import { View } from "react-native";
 import { Text } from "@/src/components/ui/text";
 import { ToggleGroup, ToggleGroupItem, ToggleGroupIcon } from "@/src/components/ui/toggle-group";
 import { Grid2x2, List } from "lucide-react-native";
+import CreateButton from "@/src/components/common/CreateButton";
 
 interface Props {
   cardStyle: "card" | "list";
@@ -18,20 +19,23 @@ export default function TemplateGalleryHeader({ cardStyle, onCardStyleChange }: 
   return (
     <View className="flex-row items-center justify-between px-4 py-2">
       <Text className="text-2xl">Templates</Text>
-      <ToggleGroup
-        value={cardStyle}
-        size="lg"
-        onValueChange={onValueChange}
-        variant="outline"
-        type="single"
-      >
-        <ToggleGroupItem isFirst value="card">
-          <ToggleGroupIcon as={Grid2x2} />
-        </ToggleGroupItem>
-        <ToggleGroupItem isLast value="list">
-          <ToggleGroupIcon as={List} />
-        </ToggleGroupItem>
-      </ToggleGroup>
+      <View className="flex-row gap-2">
+        <CreateButton size="lg" />
+        <ToggleGroup
+          value={cardStyle}
+          size="lg"
+          onValueChange={onValueChange}
+          variant="outline"
+          type="single"
+        >
+          <ToggleGroupItem isFirst value="card">
+            <ToggleGroupIcon as={Grid2x2} />
+          </ToggleGroupItem>
+          <ToggleGroupItem isLast value="list">
+            <ToggleGroupIcon as={List} />
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </View>
     </View>
   );
 }
