@@ -11,11 +11,14 @@ interface Props {
 
 export default function CardTemplateContent({ cardTemplate }: Props) {
   return (
-    <View className="flex-col p-8">
-      <View className="aspect-square p-8">
-        <Image style={{ width: "100%", height: "100%" }} source={{ uri: cardTemplate.imageUri }} />
+    <View className="flex-col p-8 items-center">
+      <View className="aspect-square max-h-[840px] w-full max-w-[840px]">
+        <Image
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          source={{ uri: cardTemplate.imageUri }}
+        />
       </View>
-      <View className="flex-col gap-4">
+      <View className="flex-col gap-4 w-full max-w-[840px]">
         <View className="flex-row justify-between">
           <LikeBadge likes={cardTemplate.likes} size="lg" />
           <View className="flex-row gap-2">
