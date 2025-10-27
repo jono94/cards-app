@@ -33,10 +33,15 @@ export default function ImagePicker({ onImagePicked }: Props) {
   }
 
   return (
-    <Card className="flex-1 justify-center items-center relative">
+    <Card className="flex-1 justify-center items-center">
       {imageUri && (
         <>
-          <ExpoImage.Image source={{ uri: imageUri }} className="w-full h-full" />
+          <ExpoImage.Image
+            source={{ uri: imageUri }}
+            style={{ width: "100%", height: "100%" }}
+            className="w-full h-full"
+            contentFit="contain"
+          />
           <Button
             variant="secondary"
             className="absolute top-2 right-2 z-10"

@@ -28,7 +28,7 @@ export default function CardTemplateContent({ cardTemplate }: Props) {
           </View>
         </View>
 
-        <Text className="text-lg p-4">{cardTemplate.description}</Text>
+        <Text className="text-lg text-muted-foreground p-4">{cardTemplate.description}</Text>
       </View>
     </View>
   );

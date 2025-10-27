@@ -58,7 +58,9 @@ export default function CardTemplateCreateForm() {
             />
           )}
         />
-        {errors.name && <Text className="text-red-500 text-sm pl-2">* {errors.name.message}</Text>}
+        {errors.name && (
+          <Text className="text-destructive text-sm pl-2">* {errors.name.message}</Text>
+        )}
 
         {/* Description */}
         <Controller
@@ -88,7 +90,7 @@ export default function CardTemplateCreateForm() {
           )}
         />
         {errors.imageUri && (
-          <Text className="text-red-500 text-sm pl-2">* {errors.imageUri.message}</Text>
+          <Text className="text-destructive text-sm pl-2">* {errors.imageUri.message}</Text>
         )}
 
         {/* Buttons */}

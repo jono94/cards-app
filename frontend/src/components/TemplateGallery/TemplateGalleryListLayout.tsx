@@ -20,10 +20,10 @@ export default function TemplateGalleryListLayout({ cardTemplates }: Props) {
       data={cardTemplates}
       renderItem={({ item }) => (
         <Card key={item.uuid} className="m-1">
-          <CardContent className="flex-row justify-start items-stretch gap-4">
-            <View className="w-1/3 aspect-video">
+          <CardContent className="flex-row justify-start items-stretch gap-2">
+            <View className="w-1/3">
               <Pressable
-                className="w-full h-full"
+                className="w-full aspect-square lg:aspect-video"
                 onPress={() => router.push(`/template-gallery/${item.uuid}`)}
               >
                 <Image
@@ -37,13 +37,13 @@ export default function TemplateGalleryListLayout({ cardTemplates }: Props) {
               </Pressable>
             </View>
 
-            <View className="flex-1 flex-col items-stretch justify-between">
-              <View className="flex-row items-center justify-between gap-16">
-                <Text className="text-3xl font-bold">{item.name}</Text>
-                <LikeBadge likes={item.likes} />
+            <View className="flex-1 flex-col items-stretch justify-start gap-4 lg:gap-6">
+              <View className="flex-row items-center justify-between">
+                <Text className="text-lg lg:text-2xl font-bold">{item.name}</Text>
+                <LikeBadge likes={item.likes} size="sm" />
               </View>
 
-              <Text className="text-xl">{item.description}</Text>
+              <Text className="text-xs lg:text-sm text-muted-foreground">{item.description}</Text>
 
               <View className="flex-row flex-wrap items-center gap-1">
                 {item.categories.map((category) => (

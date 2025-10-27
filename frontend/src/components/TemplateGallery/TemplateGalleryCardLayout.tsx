@@ -18,9 +18,12 @@ export default function TemplateGalleryCardLayout({ cardTemplates }: Props) {
     <View className="flex-row flex-wrap justify-start p-1">
       {cardTemplates.map((cardTemplate) => (
         <View key={cardTemplate.uuid} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-          <Card className="flex-1 m-1">
-            <Pressable onPress={() => router.push(`/template-gallery/${cardTemplate.uuid}`)}>
-              <CardContent className="aspect-video">
+          <Card className="m-1">
+            <CardContent className="p-0">
+              <Pressable
+                className="w-full aspect-video"
+                onPress={() => router.push(`/template-gallery/${cardTemplate.uuid}`)}
+              >
                 <Image
                   style={{
                     width: "100%",
@@ -29,8 +32,8 @@ export default function TemplateGalleryCardLayout({ cardTemplates }: Props) {
                   source={{ uri: cardTemplate.imageUri }}
                   contentFit="cover"
                 />
-              </CardContent>
-            </Pressable>
+              </Pressable>
+            </CardContent>
 
             <CardFooter className="flex-col gap-2 items-stretch">
               <View className="flex-row items-center justify-between gap-4">
@@ -38,7 +41,7 @@ export default function TemplateGalleryCardLayout({ cardTemplates }: Props) {
                 <LikeBadge likes={cardTemplate.likes} size="sm" />
               </View>
 
-              <Text className="text-xs">{cardTemplate.description}</Text>
+              <Text className="text-xs text-muted-foreground">{cardTemplate.description}</Text>
 
               <View className="flex-row flex-wrap items-center gap-1">
                 {cardTemplate.categories.map((category) => (

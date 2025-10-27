@@ -24,13 +24,12 @@ export default function TemplateGalleryHeader({ cardStyle, onCardStyleChange }: 
   }
 
   return (
-    <View className="flex-row items-center justify-between px-4 py-2">
+    <View className="flex-row items-center justify-between">
       <Text className="text-2xl">Templates</Text>
       <View className="flex-row gap-2">
-        <CreateButton size="lg" onPress={onCreateCardTemplate} />
+        <CreateButton onPress={onCreateCardTemplate} />
         <ToggleGroup
           value={cardStyle}
-          size="lg"
           onValueChange={onValueChange}
           variant="outline"
           type="single"

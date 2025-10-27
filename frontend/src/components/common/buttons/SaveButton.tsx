@@ -6,7 +6,7 @@ import { Check } from "lucide-react-native";
 export default function SaveButton({ ...props }: ButtonProps) {
   return (
     <Button variant="default" {...props}>
-      <Icon as={Check} color="white" />
+      <Icon as={Check} className="text-primary-foreground" />
       <Text>Save</Text>
     </Button>
   );
