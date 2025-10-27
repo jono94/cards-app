@@ -4,7 +4,7 @@ import CardTemplateCreateForm from "@/src/components/TemplateGallery/CardTemplat
 
 export default function CreateCardTemplate() {
   return (
-    <View className="flex-1 bg-background p-4">
+    <View className="flex-1 p-4">
       <View className="flex-row items-center justify-between mb-4">
         <Text className="text-2xl">New Card Template</Text>
       </View>

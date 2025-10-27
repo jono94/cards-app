@@ -9,7 +9,7 @@ export default function CardTemplates() {
   const [cardStyle, setCardStyle] = useState<"card" | "list">("card");
 
   return (
-    <View className="flex-1 bg-background p-4">
+    <View className="flex-1 p-4">
       <TemplateGalleryHeader cardStyle={cardStyle} onCardStyleChange={setCardStyle} />
       {cardStyle === "card" ? (
         <TemplateGalleryCardLayout cardTemplates={DATA} />

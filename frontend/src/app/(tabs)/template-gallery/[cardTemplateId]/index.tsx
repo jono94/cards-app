@@ -12,7 +12,7 @@ export default function CardTemplateDetail() {
   // TODO: Add missing cardTemplate View
 
   return (
-    <View className="flex-1 bg-background p-4">
+    <View className="flex-1 p-4">
       <CardTemplateHeader cardTemplateName={cardTemplate?.name ?? ""} />
       <CardTemplateContent cardTemplate={cardTemplate ?? DATA[0]} />
     </View>
