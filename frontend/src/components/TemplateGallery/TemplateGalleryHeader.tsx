@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { Text } from "@/src/components/ui/text";
 import { ToggleGroup, ToggleGroupItem, ToggleGroupIcon } from "@/src/components/ui/toggle-group";
 import { Grid2x2, List } from "lucide-react-native";
-import CreateButton from "@/src/components/common/CreateButton";
+import CreateButton from "@/src/components/common/buttons/CreateButton";
 
 interface Props {
   cardStyle: "card" | "list";

@@ -1,15 +1,11 @@
-import { Button } from "@/src/components/ui/button";
+import { Button, type ButtonProps } from "@/src/components/ui/button";
 import { Icon } from "@/src/components/ui/icon";
 import { Plus } from "lucide-react-native";
 import { Text } from "@/src/components/ui/text";
 
-interface Props {
-  size?: "default" | "sm" | "lg";
-}
-
-export default function CreateButton({ size = "default" }: Props) {
+export default function CreateButton({ ...props }: ButtonProps) {
   return (
-    <Button variant="secondary" size={size}>
+    <Button variant="secondary" {...props}>
       <Icon as={Plus} />
       <Text>Create</Text>
     </Button>

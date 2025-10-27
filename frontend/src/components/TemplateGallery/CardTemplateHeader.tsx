@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Text } from "@/src/components/ui/text";
-import EditButton from "@/src/components/common/EditButton";
+import EditButton from "@/src/components/common/buttons/EditButton";
 
 interface Props {
   cardTemplateName: string;
