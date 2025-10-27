@@ -3,6 +3,7 @@ import { Text } from "@/src/components/ui/text";
 import { ToggleGroup, ToggleGroupItem, ToggleGroupIcon } from "@/src/components/ui/toggle-group";
 import { Grid2x2, List } from "lucide-react-native";
 import CreateButton from "@/src/components/common/buttons/CreateButton";
+import { useRouter } from "expo-router";
 
 interface Props {
   cardStyle: "card" | "list";
@@ -16,11 +17,17 @@ export default function TemplateGalleryHeader({ cardStyle, onCardStyleChange }: 
     }
   };
 
+  const router = useRouter();
+
+  function onCreateCardTemplate() {
+    router.push("/template-gallery/create");
+  }
+
   return (
     <View className="flex-row items-center justify-between px-4 py-2">
       <Text className="text-2xl">Templates</Text>
       <View className="flex-row gap-2">
-        <CreateButton size="lg" />
+        <CreateButton size="lg" onPress={onCreateCardTemplate} />
         <ToggleGroup
           value={cardStyle}
           size="lg"
