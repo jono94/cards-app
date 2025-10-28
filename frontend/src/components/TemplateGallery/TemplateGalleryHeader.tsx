@@ -4,6 +4,7 @@ import { ToggleGroup, ToggleGroupItem, ToggleGroupIcon } from "@/src/components/
 import { Grid2x2, List } from "lucide-react-native";
 import CreateButton from "@/src/components/common/buttons/CreateButton";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   cardStyle: "card" | "list";
@@ -11,6 +12,8 @@ interface Props {
 }
 
 export default function TemplateGalleryHeader({ cardStyle, onCardStyleChange }: Props) {
+  const { t } = useTranslation();
+
   const onValueChange = (value: string | undefined) => {
     if (value === "card" || value === "list") {
       onCardStyleChange(value as "card" | "list");
@@ -25,7 +28,7 @@ export default function TemplateGalleryHeader({ cardStyle, onCardStyleChange }: 
 
   return (
     <View className="flex-row items-center justify-between">
-      <Text className="text-2xl">Templates</Text>
+      <Text className="text-2xl">{t("templates.templates")}</Text>
       <View className="flex-row gap-2">
         <CreateButton onPress={onCreateCardTemplate} />
         <ToggleGroup

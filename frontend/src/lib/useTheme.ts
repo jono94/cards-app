@@ -10,11 +10,6 @@ The theme can be either "light", "dark", or "system".
 
 const SELECTED_THEME_KEY = "SELECTED_THEME";
 export type ColorSchemeOption = "light" | "dark" | "system";
-export const ColorSchemeOptionsArray = [
-  { value: "light", label: "Light" },
-  { value: "dark", label: "Dark" },
-  { value: "system", label: "System" },
-];
 
 // In-memory cache to avoid async reads on every render
 // This gets set by loadSelectedTheme() on app startup

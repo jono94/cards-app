@@ -6,11 +6,13 @@ import { Image, Trash2 } from "lucide-react-native";
 import * as ExpoImagePicker from "expo-image-picker";
 import { useState } from "react";
 import * as ExpoImage from "expo-image";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onImagePicked: React.Dispatch<React.SetStateAction<string | null>>;
 }
 export default function ImagePicker({ onImagePicked }: Props) {
+  const { t } = useTranslation();
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   async function onPickImage() {
@@ -54,7 +56,7 @@ export default function ImagePicker({ onImagePicked }: Props) {
       {!imageUri && (
         <Button variant="secondary" onPress={onPickImage}>
           <Icon as={Image} />
-          <Text>Pick an image</Text>
+          <Text>{t("templates.pickAnImage")}</Text>
         </Button>
       )}
     </Card>

@@ -18,7 +18,7 @@ export default function LanguageSelector() {
   // Language hook and options
   const { language, setLanguage } = useLanguage();
   const languageOptions = Object.keys(resources).map((key) => ({
-    label: t(`languages.${key}`),
+    label: t(`settings.languages.${key}`),
     value: key,
   }));
 

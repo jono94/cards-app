@@ -7,12 +7,27 @@ export const resources = {
         cardCreator: "Card Creator",
         templateGallery: "Template Gallery",
       },
+      templates: {
+        templates: "Templates",
+        newTemplate: "New Card Template",
+        cardTemplateNamePlaceholder: "Name",
+        cardTemplateNameRequired: "Card Template Name is required",
+        cardTemplateNameMinLength:
+          "Card Template Name must be at least {{minLength}} characters long",
+        cardTemplateDescriptionPlaceholder: "Description",
+        cardTemplateImageRequired: "Card Template Image is required",
+        pickAnImage: "Pick an image",
+      },
       settings: {
         preferences: "Preferences",
-      },
-      languages: {
-        en: "English",
-        es: "Spanish",
+        theme: "Theme",
+        themeLight: "Light",
+        themeDark: "Dark",
+        themeSystem: "System",
+        languages: {
+          en: "English",
+          es: "Spanish",
+        },
       },
     },
     common: {
@@ -31,12 +46,27 @@ export const resources = {
         cardCreator: "Creador de Tarjetas",
         templateGallery: "Galería de Plantillas",
       },
+      templates: {
+        templates: "Plantillas",
+        newTemplate: "Nueva Tarjeta de Plantilla",
+        cardTemplateNamePlaceholder: "Nombre",
+        cardTemplateNameRequired: "El Nombre de la Tarjeta de Plantilla es requerido",
+        cardTemplateNameMinLength:
+          "El Nombre de la Tarjeta de Plantilla debe tener al menos {{minLength}} caracteres",
+        cardTemplateDescriptionPlaceholder: "Descripción",
+        cardTemplateImageRequired: "La Imagen de la Tarjeta de Plantilla es requerida",
+        pickAnImage: "Seleccionar una imagen",
+      },
       settings: {
         preferences: "Preferencias",
-      },
-      languages: {
-        en: "Inglés",
-        es: "Español",
+        theme: "Tema",
+        themeLight: "Claro",
+        themeDark: "Oscuro",
+        themeSystem: "Sistema",
+        languages: {
+          en: "Inglés",
+          es: "Español",
+        },
       },
     },
     common: {

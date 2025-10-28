@@ -8,10 +8,18 @@ import {
   SelectValue,
   type Option,
 } from "@/src/components/ui/select";
-import { ColorSchemeOptionsArray, ColorSchemeOption, useSelectedTheme } from "@/src/lib/useTheme";
+import { ColorSchemeOption, useSelectedTheme } from "@/src/lib/useTheme";
+import { useTranslation } from "react-i18next";
 
 export default function ThemeSelector() {
+  const { t } = useTranslation();
   const { selectedTheme, setSelectedTheme } = useSelectedTheme();
+
+  const ColorSchemeOptionsArray = [
+    { value: "light", label: t("settings.themeLight") },
+    { value: "dark", label: t("settings.themeDark") },
+    { value: "system", label: t("settings.themeSystem") },
+  ];
 
   const selectedThemeOption: Option =
     ColorSchemeOptionsArray.find((theme) => theme.value === selectedTheme) ??
@@ -24,7 +32,7 @@ export default function ThemeSelector() {
 
   return (
     <View className="flex-row items-center justify-between">
-      <Text>Theme</Text>
+      <Text>{t("settings.theme")}</Text>
       <Select value={selectedThemeOption} onValueChange={handleValueChange}>
         <SelectTrigger>
           <SelectValue placeholder="" />

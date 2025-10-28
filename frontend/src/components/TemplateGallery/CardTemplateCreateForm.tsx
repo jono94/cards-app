@@ -7,6 +7,7 @@ import SaveButton from "@/src/components/common/buttons/SaveButton";
 import CancelButton from "@/src/components/common/buttons/CancelButton";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 type Inputs = {
   name: string;
@@ -16,6 +17,7 @@ type Inputs = {
 
 export default function CardTemplateCreateForm() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const {
     control,
@@ -45,14 +47,17 @@ export default function CardTemplateCreateForm() {
           control={control}
           name="name"
           rules={{
-            required: "Card Template Name is required",
-            minLength: { value: 3, message: "Name must be at least 3 characters long" },
+            required: t("templates.cardTemplateNameRequired"),
+            minLength: {
+              value: 3,
+              message: t("templates.cardTemplateNameMinLength", { minLength: 3 }),
+            },
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               className="w-full max-w-96"
               onBlur={onBlur}
-              placeholder="Name"
+              placeholder={t("templates.cardTemplateNamePlaceholder")}
               onChangeText={onChange}
               value={value}
             />
@@ -71,7 +76,7 @@ export default function CardTemplateCreateForm() {
               className="w-full max-w-96"
               onChangeText={onChange}
               value={value}
-              placeholder="Description"
+              placeholder={t("templates.cardTemplateDescriptionPlaceholder")}
             />
           )}
         />
@@ -81,7 +86,7 @@ export default function CardTemplateCreateForm() {
           control={control}
           name="imageUri"
           rules={{
-            required: "Card Template Image is required",
+            required: t("templates.cardTemplateImageRequired"),
           }}
           render={({ field: { onChange, value } }) => (
             <View className="w-full max-w-96 self-center aspect-video">

@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import SettingsPopover from "@/src/components/settings/settingsPopover";
+import { useTranslation } from "react-i18next";
 
 // Ensure deep links push the "index.tsx" route onto the stack first
 export const unstable_settings = {
@@ -7,9 +8,13 @@ export const unstable_settings = {
 };
 
 export default function TemplateGalleryLayout() {
+  const { t } = useTranslation();
   return (
     <Stack
-      screenOptions={{ headerTitle: "Template Gallery", headerRight: () => <SettingsPopover /> }}
+      screenOptions={{
+        headerTitle: t("navigation.templateGallery"),
+        headerRight: () => <SettingsPopover />,
+      }}
     />
   );
 }
