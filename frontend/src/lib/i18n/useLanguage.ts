@@ -7,7 +7,6 @@ const LANGUAGE_KEY = "LANGUAGE";
 let storageLanguage: string | null = null;
 
 export function useLanguage() {
-  console.log("useLanguage hook called");
   const [internalLanguage, setInternalLanguage] = useState<string>(storageLanguage ?? "en");
 
   const setLanguage = (language: string) => {
@@ -26,10 +25,8 @@ export function useLanguage() {
 export async function loadLanguage() {
   const language = await getItem<string>(LANGUAGE_KEY);
   if (language) {
-    console.log("Loading language from storage:", language);
     storageLanguage = language;
   } else {
-    console.log("Loading language from locale:", getLocales()[0].languageCode ?? "en");
     storageLanguage = getLocales()[0].languageCode ?? "en";
   }
   changeLanguageI18n(storageLanguage);
