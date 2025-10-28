@@ -21,9 +21,7 @@ export function useSelectedTheme() {
 
   // Watcher to ensure that the web theme is in sync with the native theme.
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.classList.toggle("dark", colorScheme === "dark");
-    }
+    setDOMClass(colorScheme);
   }, [colorScheme]);
 
   // Use a local variable to track the selected theme as there is no way to get it from
@@ -43,8 +41,8 @@ export function useSelectedTheme() {
     // Force a sync with the web theme, for some reason the useTheme doesn't this properly when
     // changing from dark to system if the system is set to dark. I would have thought that it
     // wouldn't need updating in this case but it does. This fixes it...
-    if (theme === "system" && typeof document !== "undefined") {
-      document.documentElement.classList.toggle("dark", Appearance.getColorScheme() === "dark");
+    if (theme === "system") {
+      setDOMClass(Appearance.getColorScheme() as "light" | "dark");
     }
   };
 
@@ -57,6 +55,7 @@ export function useSelectedTheme() {
 
 export async function loadSelectedTheme() {
   const theme = await getItem<ColorSchemeOption>(SELECTED_THEME_KEY);
+
   if (theme === "light" || theme === "dark" || theme === "system") {
     cachedThemePreference = theme;
     colorScheme.set(theme as ColorSchemeOption);
@@ -65,5 +64,19 @@ export async function loadSelectedTheme() {
     // Note this means we are using the system color as we have no preference set.
     cachedThemePreference = "system";
     colorScheme.set(Appearance.getColorScheme() as ColorSchemeOption);
+  }
+
+  // Set the DOM class here as well since there are some occasional issues where the useTheme hook doesn't run and
+  // the web theme is cleared on an app hot reload (might only effect dev)
+  if (theme === "system") {
+    setDOMClass(Appearance.getColorScheme() as "light" | "dark");
+  } else if (theme === "light" || theme === "dark") {
+    setDOMClass(theme);
+  }
+}
+
+function setDOMClass(color: "light" | "dark" | undefined) {
+  if (typeof document !== "undefined") {
+    document.documentElement.classList.toggle("dark", color === "dark");
   }
 }
