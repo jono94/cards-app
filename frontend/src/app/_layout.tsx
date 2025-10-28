@@ -6,19 +6,28 @@ import { ThemeProvider } from "@react-navigation/native";
 import { NAV_THEME } from "@/src/lib/theme";
 import { loadSelectedTheme, useSelectedTheme } from "@/src/lib/useTheme";
 import { useEffect, useState } from "react";
+import "@/src/lib/i18n";
+import { loadLanguage } from "@/src/lib/i18n/useLanguage";
 
 export default function RootLayout() {
   const [isThemeLoaded, setIsThemeLoaded] = useState(false);
+  const [isLanguageLoaded, setIsLanguageLoaded] = useState(false);
 
   useEffect(() => {
-    // Load the theme on mount
-    loadSelectedTheme().then(() => {
-      setIsThemeLoaded(true);
-    });
+    // Load the theme and language on mount
+    loadSelectedTheme()
+      .then(() => {
+        setIsThemeLoaded(true);
+      })
+      .then(() => {
+        loadLanguage().then(() => {
+          setIsLanguageLoaded(true);
+        });
+      });
   }, []);
 
   // Don't render until theme is loaded to prevent flash
-  if (!isThemeLoaded) {
+  if (!isThemeLoaded || !isLanguageLoaded) {
     return null;
   }
 
