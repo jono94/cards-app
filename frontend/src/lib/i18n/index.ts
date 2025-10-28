@@ -5,7 +5,7 @@ import { getLocales } from "expo-localization";
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: getLocales()[0].languageCode ?? "en", // TODO: Support changing language
+  lng: "en", // Language is loaded from storage on app startup, this will be overridden
   fallbackLng: "en",
   interpolation: {
     escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
