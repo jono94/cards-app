@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 export default function SettingsPopover() {
   const { t } = useTranslation();
   return (
-    <View className="p-4">
+    <View>
       <Popover>
         <PopoverTrigger>
           <EvilIcons name="user" size={32} className="text-foreground" />

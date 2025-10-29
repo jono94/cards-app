@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { Platform } from "react-native";
 import SettingsPopover from "@/src/components/settings/settingsPopover";
 import { useTranslation } from "react-i18next";
 
@@ -12,6 +13,7 @@ export default function TemplateGalleryLayout() {
   return (
     <Stack
       screenOptions={{
+        headerShown: Platform.OS === "web" ? false : true,
         headerTitle: t("navigation.templateGallery"),
         headerRight: () => <SettingsPopover />,
       }}

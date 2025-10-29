@@ -32,6 +32,7 @@ export const resources = {
     },
     common: {
       language: "Language",
+      back: "Back",
       create: "Create",
       save: "Save",
       cancel: "Cancel",
@@ -71,6 +72,7 @@ export const resources = {
     },
     common: {
       language: "Idioma",
+      back: "Volver",
       create: "Crear",
       save: "Guardar",
       cancel: "Cancelar",
