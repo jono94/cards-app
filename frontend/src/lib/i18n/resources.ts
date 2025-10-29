@@ -48,13 +48,13 @@ export const resources = {
       },
       templates: {
         templates: "Plantillas",
-        newTemplate: "Nueva Tarjeta de Plantilla",
+        newTemplate: "Nueva Plantilla",
         cardTemplateNamePlaceholder: "Nombre",
-        cardTemplateNameRequired: "El Nombre de la Tarjeta de Plantilla es requerido",
+        cardTemplateNameRequired: "El Nombre de la Plantilla es requerido",
         cardTemplateNameMinLength:
-          "El Nombre de la Tarjeta de Plantilla debe tener al menos {{minLength}} caracteres",
+          "El Nombre de la Plantilla debe tener al menos {{minLength}} caracteres",
         cardTemplateDescriptionPlaceholder: "Descripción",
-        cardTemplateImageRequired: "La Imagen de la Tarjeta de Plantilla es requerida",
+        cardTemplateImageRequired: "La Imagen de la Plantilla es requerida",
         pickAnImage: "Seleccionar una imagen",
       },
       settings: {
