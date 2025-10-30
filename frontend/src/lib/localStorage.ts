@@ -1,18 +1,15 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createMMKV } from "react-native-mmkv";
 
-const getItem = async <T>(key: string): Promise<T | null> => {
-  try {
-    const value = await AsyncStorage.getItem(key);
-    return value !== null ? (JSON.parse(value) as T) : null;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+const storage = createMMKV();
+
+const getItem = <T>(key: string): T | undefined => {
+  const value = storage.getString(key);
+  return value !== undefined ? (JSON.parse(value) as T) : undefined;
 };
 
-const setItem = async <T>(key: string, value: T): Promise<boolean> => {
+const setItem = <T>(key: string, value: T): boolean => {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(value));
+    storage.set(key, JSON.stringify(value));
     return true;
   } catch (error) {
     console.error(error);
@@ -20,14 +17,8 @@ const setItem = async <T>(key: string, value: T): Promise<boolean> => {
   }
 };
 
-const removeItem = async (key: string): Promise<boolean> => {
-  try {
-    await AsyncStorage.removeItem(key);
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
+const removeItem = (key: string): boolean => {
+  return storage.remove(key);
 };
 
 export { getItem, setItem, removeItem };

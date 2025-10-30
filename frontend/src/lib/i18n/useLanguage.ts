@@ -22,8 +22,8 @@ export function useLanguage() {
   return { language: internalLanguage, setLanguage };
 }
 
-export async function loadLanguage() {
-  const language = await getItem<string>(LANGUAGE_KEY);
+export function loadLanguage() {
+  const language = getItem<string>(LANGUAGE_KEY);
   if (language) {
     storageLanguage = language;
   } else {

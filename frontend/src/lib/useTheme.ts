@@ -53,8 +53,9 @@ export function useSelectedTheme() {
   };
 }
 
-export async function loadSelectedTheme() {
-  const theme = await getItem<ColorSchemeOption>(SELECTED_THEME_KEY);
+export function loadSelectedTheme() {
+  const theme = getItem<ColorSchemeOption>(SELECTED_THEME_KEY);
+  console.log(`loadSelectedTheme: ${SELECTED_THEME_KEY}`, theme);
 
   if (theme === "light" || theme === "dark" || theme === "system") {
     cachedThemePreference = theme;
