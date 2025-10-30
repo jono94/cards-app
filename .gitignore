@@ -1,0 +1,4 @@
+
+# This should be in the subdirectories anyway, but the tools are complaining
+.expo/
+**/.expo/
