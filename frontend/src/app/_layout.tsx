@@ -8,12 +8,18 @@ import { loadSelectedTheme, useSelectedTheme } from "@/src/lib/useTheme";
 import "@/src/lib/i18n";
 import { loadLanguage } from "@/src/lib/i18n/useLanguage";
 
-export default function RootLayout() {
-  // Load language
-  loadLanguage();
+let initialised = false;
 
-  // Load theme
-  loadSelectedTheme();
+export default function RootLayout() {
+  if (!initialised) {
+    // Load language
+    loadLanguage();
+
+    // Load theme
+    loadSelectedTheme();
+
+    initialised = true;
+  }
 
   return (
     <Providers>
@@ -26,10 +32,11 @@ export default function RootLayout() {
 }
 
 function Providers({ children }: { children: React.ReactNode }) {
+  /// ThemeProvider sets the theme for the app navigation (tabs, etc.)
+  /// PortalHost is required for certain components that need to be rendered outside of the main app component (apparently it should be last)
+
   const { colorScheme } = useSelectedTheme();
 
-  // ThemeProvider sets the theme for the app navigation (tabs, etc.)
-  // PortalHost is required for certain components that need to be rendered outside of the main app component (apparently it should be last)
   return (
     <ThemeProvider value={NAV_THEME[colorScheme as "light" | "dark"]}>
       {children}
