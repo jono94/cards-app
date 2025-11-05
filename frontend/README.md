@@ -10,10 +10,19 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Set up the configuration
+
+   Set up `.env.local`
+   ```env
+   API_URL=http://<my-local-ip>:8000/api
+   ```
+
+3. Ensure the backend is running and bound on 0.0.0.0
+
+4. Start the app
 
    ```bash
-   npx expo start
+   npm run dev
    ```
 
 In the output, you'll find options to open the app in a

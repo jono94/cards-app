@@ -7,6 +7,7 @@ import { NAV_THEME } from "@/src/lib/theme";
 import { loadSelectedTheme, useSelectedTheme } from "@/src/lib/useTheme";
 import "@/src/lib/i18n";
 import { loadLanguage } from "@/src/lib/i18n/useLanguage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 let initialised = false;
 
@@ -32,15 +33,20 @@ export default function RootLayout() {
 }
 
 function Providers({ children }: { children: React.ReactNode }) {
-  /// ThemeProvider sets the theme for the app navigation (tabs, etc.)
-  /// PortalHost is required for certain components that need to be rendered outside of the main app component (apparently it should be last)
-
+  // ThemeProvider sets the theme for the app navigation (tabs, etc.)
+  // Get the color scheme from the selected theme
   const { colorScheme } = useSelectedTheme();
 
+  // QueryClient is used to fetch data from the API
+  const queryClient = new QueryClient();
+
+  // PortalHost is required for certain components that need to be rendered outside of the main app component (apparently it should be last)
   return (
-    <ThemeProvider value={NAV_THEME[colorScheme as "light" | "dark"]}>
-      {children}
-      <PortalHost />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={NAV_THEME[colorScheme as "light" | "dark"]}>
+        {children}
+        <PortalHost />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }

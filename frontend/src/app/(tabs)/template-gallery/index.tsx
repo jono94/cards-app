@@ -3,18 +3,22 @@ import TemplateGalleryHeader from "@/src/components/TemplateGallery/TemplateGall
 import TemplateGalleryCardLayout from "@/src/components/TemplateGallery/TemplateGalleryCardLayout";
 import TemplateGalleryListLayout from "@/src/components/TemplateGallery/TemplateGalleryListLayout";
 import { useState } from "react";
-import { DATA } from "@/src/api/CardTemplates/MockData";
+import { useCardTemplateQueries } from "@/src/api/CardTemplates/queries";
 
 export default function CardTemplates() {
   const [cardStyle, setCardStyle] = useState<"card" | "list">("card");
+
+  const { data: cardTemplates } = useCardTemplateQueries().useListCardTemplatesQuery();
+
+  const cardTemplatesList = cardTemplates ?? [];
 
   return (
     <View className="flex-1 p-4">
       <TemplateGalleryHeader cardStyle={cardStyle} onCardStyleChange={setCardStyle} />
       {cardStyle === "card" ? (
-        <TemplateGalleryCardLayout cardTemplates={DATA} />
+        <TemplateGalleryCardLayout cardTemplates={cardTemplatesList} />
       ) : (
-        <TemplateGalleryListLayout cardTemplates={DATA} />
+        <TemplateGalleryListLayout cardTemplates={cardTemplatesList} />
       )}
     </View>
   );

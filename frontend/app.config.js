@@ -10,6 +10,11 @@ export default ({ config }) => {
       ...config.android,
       package: getUniqueIdentifier(),
     },
+    extra: {
+      ...config.extra,
+      apiUrl: getApiUrl(),
+      environment: getEnvironment(),
+    },
   };
 };
 
@@ -27,4 +32,16 @@ const getAppName = () => {
   if (IS_DEV) return "Cards App (Dev)";
   if (IS_PREVIEW) return "Cards App (Preview)";
   return "Cards App";
+};
+
+const getApiUrl = () => {
+  if (IS_DEV) return process.env.API_URL; // Set in .env.local to webserver address (bound on 0.0.0.0)
+  if (IS_PREVIEW) return "https://staging.cardsapp.jonosplaceholder.click/api/";
+  return "https://cardsapp.jonosplaceholder.click/api/";
+};
+
+const getEnvironment = () => {
+  if (IS_DEV) return "development";
+  if (IS_PREVIEW) return "staging";
+  return "production";
 };

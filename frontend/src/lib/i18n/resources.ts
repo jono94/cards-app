@@ -10,12 +10,14 @@ export const resources = {
       templates: {
         templates: "Templates",
         newTemplate: "New Card Template",
+        editTemplate: "Edit Card Template",
         cardTemplateNamePlaceholder: "Name",
         cardTemplateNameRequired: "Card Template Name is required",
         cardTemplateNameMinLength:
           "Card Template Name must be at least {{minLength}} characters long",
         cardTemplateDescriptionPlaceholder: "Description",
         cardTemplateImageRequired: "Card Template Image is required",
+        cardTemplateNotFound: "Card Template not found",
         pickAnImage: "Pick an image",
       },
       settings: {
@@ -37,6 +39,8 @@ export const resources = {
       save: "Save",
       cancel: "Cancel",
       edit: "Edit",
+      delete: "Delete",
+      loading: "Loading",
     },
   },
   es: {
@@ -50,12 +54,14 @@ export const resources = {
       templates: {
         templates: "Plantillas",
         newTemplate: "Nueva Plantilla",
+        editTemplate: "Editar Plantilla",
         cardTemplateNamePlaceholder: "Nombre",
         cardTemplateNameRequired: "El Nombre de la Plantilla es requerido",
         cardTemplateNameMinLength:
           "El Nombre de la Plantilla debe tener al menos {{minLength}} caracteres",
         cardTemplateDescriptionPlaceholder: "Descripción",
         cardTemplateImageRequired: "La Imagen de la Plantilla es requerida",
+        cardTemplateNotFound: "La Plantilla de Tarjeta no fue encontrada",
         pickAnImage: "Seleccionar una imagen",
       },
       settings: {
@@ -77,6 +83,8 @@ export const resources = {
       save: "Guardar",
       cancel: "Cancelar",
       edit: "Editar",
+      delete: "Eliminar",
+      loading: "Cargando",
     },
   },
 };
