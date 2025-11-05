@@ -1,0 +1,54 @@
+{
+    "card_templates": [
+        {
+            "uuid": "template-1",
+            "categories": ["category-1", "category-2"],
+            "name": "Template 1",
+            "description": "Template 1 description",
+            "image_file_name": "leaf-blue.png",
+            "likes": 10,
+            "created_at": "2025-01-01T00:00:00.000000+00:00",
+            "updated_at": "2025-01-04T00:00:00.000000+00:00"
+        },
+        {
+            "uuid": "template-2",
+            "categories": ["category-1", "category-2"],
+            "name": "Template 2",
+            "description": "Template 2 description",
+            "image_file_name": "leaf-green.png",
+            "likes": 100,
+            "created_at": "2025-02-02T00:00:00.000000+00:00",
+            "updated_at": "2025-02-04T00:00:00.000000+00:00"
+        },
+        {
+            "uuid": "template-3",
+            "categories": ["category-3", "category-4"],
+            "name": "Template 3",
+            "description": "Template 3 description",
+            "image_file_name": "leaf-red.png",
+            "likes": 50,
+            "created_at": "2025-03-03T00:00:00.000000+00:00",
+            "updated_at": "2025-03-04T00:00:00.000000+00:00"
+        },
+        {
+            "uuid": "template-4",
+            "categories": ["category-5", "category-6"],
+            "name": "Template 4",
+            "description": "Template 4 description",
+            "image_file_name": "leaf-yellow.png",
+            "likes": 0,
+            "created_at": "2025-04-04T00:00:00.000000+00:00",
+            "updated_at": "2025-04-04T00:00:00.000000+00:00"
+        },
+        {
+            "uuid": "template-5",
+            "categories": ["category-7", "category-8"],
+            "name": "Template 5",
+            "description": "Template 5 description",
+            "image_file_name": "leaf-orange.png",
+            "likes": 2222,
+            "created_at": "2025-05-05T00:00:00.000000+00:00",
+            "updated_at": "2025-05-05T00:00:00.000000+00:00"
+        }
+    ]
+}

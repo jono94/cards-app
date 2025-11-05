@@ -1,0 +1,38 @@
+from enum import StrEnum
+from functools import lru_cache
+
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class RepositoryType(StrEnum):
+    IN_MEMORY = "in_memory"
+    POSTGRES = "postgres"
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=False,
+        extra="ignore",
+    )
+
+    # App settings
+    app_name: str = Field(default="Cards App")
+
+    # Repository settings
+    repository_type: RepositoryType = Field(default=RepositoryType.IN_MEMORY)
+    initial_in_memory_data_file: str | None = Field(default=None, description="File path to the initial data for the in memory repository")
+    initial_in_memory_image_files_directory: str | None = Field(
+        default=None, description="Directory path to the initial image files for the in memory repository"
+    )
+    image_base_url: str | None = Field(default=None, description="Base URL to the image files (prefix to append to the DB image URI)")
+
+    # API settings
+    cors_origins: list[str] = Field(default=["http://localhost:8081"])
+
+
+@lru_cache
+def get_settings() -> Settings:
+    """Function to get the settings. Decorated with lru_cache to cache the result so we aren't re-reading the .env file on every request."""
+    return Settings()

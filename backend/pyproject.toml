@@ -1,0 +1,65 @@
+[project]
+name = "cards-app-backend"
+version = "0.1.0"
+description = "Cards App Backend"
+readme = "README.md"
+authors = [{ name = "Jono Delbridge", email = "jonodel949@gmail.com" }]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.120.4",
+    "pydantic-settings>=2.11.0",
+    "python-multipart>=0.0.20",
+    "uvicorn>=0.38.0",
+]
+
+[dependency-groups]
+dev = ["ruff>=0.14.3"]
+
+#### Build System ####
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["cards_app_backend"]
+
+
+#### Ruff Configuration ####
+[tool.ruff]
+line-length = 140
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 140
+
+[tool.ruff.lint]
+select = [
+    "A",    # Prevent using keywords that clobber builtins
+    "B",    # Bugbear: security and bug-prone patterns
+    "D",    # pydocstyle (docstrings)
+    "E",    # pycodestyle
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade: modernize code
+    "RUF",  # Ruff-specific rules
+    "FAST", # FastAPI specific rules
+]
+ignore = [
+    #### specific rules
+    "D100", # ignore missing docs
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "D200",
+    "D203", # Conflicts with D211
+    "D205",
+    "D212",
+    "D400",
+    "D401",
+    "D415",
+    "E501", # Line too long
+]
