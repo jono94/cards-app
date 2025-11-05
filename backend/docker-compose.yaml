@@ -1,0 +1,41 @@
+name: cards-app-backend-dev
+
+services:
+  psql_db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cards_app_backend
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    depends_on:
+      - psql_db
+    # Static environment variables
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@psql_db:5432/cards_app_backend
+    # Dynamic environment variables
+    env_file:
+      - .env
+    # Override CMD to enable hot-reload with --reload flag
+    # prettier-ignore
+    command: ["uv", "run", "uvicorn", "src.cards_app_backend.core.api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount image files volume (shared with postgres for now)
+      - image_files:/data/images/
+      # Mount source code for hot-reloading during development
+      - ./src/cards_app_backend:/app/src/cards_app_backend
+      # Mock data for in memory repository
+      - ./data/:/app/data/
+
+volumes:
+  postgres_data:
+  image_files:
