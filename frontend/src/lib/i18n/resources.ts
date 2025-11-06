@@ -1,3 +1,5 @@
+export const appName = "Cards App";
+
 export const resources = {
   en: {
     translation: {
@@ -20,12 +22,40 @@ export const resources = {
         cardTemplateNotFound: "Card Template not found",
         pickAnImage: "Pick an image",
       },
+      signIn: {
+        title: `Sign in to ${appName}`,
+        welcomeBack: "Welcome back! Please sign in to continue",
+        forgotPassword: "Forgot your password?",
+        signUp: "Sign up",
+        dontHaveAnAccount: "Don't have an account?",
+        emailRequired: "Email is required",
+        passwordRequired: "Password is required",
+      },
+      signUp: {
+        title: `Create your account`,
+        welcome: "Welcome! Please fill in the details to get started.",
+        alreadyHaveAnAccount: "Already have an account?",
+        signIn: "Sign in",
+        emailRequired: "Email is required",
+        passwordRequired: "Password is required",
+      },
+      forgotPassword: {
+        title: "Forgot your password?",
+        enterEmail: "Enter your email to reset your password",
+        resetPassword: "Reset your password",
+      },
+      verifyEmail: {
+        title: "Verify your email",
+        description: "Please check your inbox and click the link to verify your email address.",
+        resendEmail: "Didn't receive the email? Resend",
+      },
       settings: {
         preferences: "Preferences",
         theme: "Theme",
         themeLight: "Light",
         themeDark: "Dark",
         themeSystem: "System",
+        signOut: "Sign Out",
         languages: {
           en: "English",
           es: "Spanish",
@@ -41,6 +71,10 @@ export const resources = {
       edit: "Edit",
       delete: "Delete",
       loading: "Loading",
+      email: "Email",
+      password: "Password",
+      continue: "Continue",
+      or: "or",
     },
   },
   es: {
@@ -64,12 +98,41 @@ export const resources = {
         cardTemplateNotFound: "La Plantilla de Tarjeta no fue encontrada",
         pickAnImage: "Seleccionar una imagen",
       },
+      signIn: {
+        title: `Iniciar sesión en ${appName}`,
+        welcomeBack: "Bienvenido de nuevo! Por favor, inicia sesión para continuar",
+        forgotPassword: "¿Olvidaste tu contraseña?",
+        signUp: "Registrarse",
+        dontHaveAnAccount: "¿No tienes una cuenta?",
+        emailRequired: "El Email es requerido",
+        passwordRequired: "La Contraseña es requerida",
+      },
+      signUp: {
+        title: `Crear tu cuenta`,
+        welcome: "Bienvenido! Por favor, rellena los detalles para empezar.",
+        alreadyHaveAnAccount: "¿Ya tienes una cuenta?",
+        signIn: "Iniciar sesión",
+        emailRequired: "El Email es requerido",
+        passwordRequired: "La Contraseña es requerida",
+      },
+      forgotPassword: {
+        title: "¿Olvidaste tu contraseña?",
+        enterEmail: "Introduce tu email para restablecer tu contraseña",
+        resetPassword: "Restablecer contraseña",
+      },
+      verifyEmail: {
+        title: "Verifica tu email",
+        description:
+          "Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu dirección de email.",
+        resendEmail: "¿No recibiste el email? Reenviar",
+      },
       settings: {
         preferences: "Preferencias",
         theme: "Tema",
         themeLight: "Claro",
         themeDark: "Oscuro",
         themeSystem: "Sistema",
+        signOut: "Cerrar sesión",
         languages: {
           en: "Inglés",
           es: "Español",
@@ -85,6 +148,10 @@ export const resources = {
       edit: "Editar",
       delete: "Eliminar",
       loading: "Cargando",
+      email: "Email",
+      password: "Contraseña",
+      continue: "Continuar",
+      or: "o",
     },
   },
 };

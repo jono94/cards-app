@@ -8,6 +8,7 @@ import { loadSelectedTheme, useSelectedTheme } from "@/src/lib/useTheme";
 import "@/src/lib/i18n";
 import { loadLanguage } from "@/src/lib/i18n/useLanguage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthenticationProvider } from "@/src/lib/authentication/AuthenticationProvider";
 
 let initialised = false;
 
@@ -44,7 +45,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={NAV_THEME[colorScheme as "light" | "dark"]}>
-        {children}
+        <AuthenticationProvider>{children}</AuthenticationProvider>
         <PortalHost />
       </ThemeProvider>
     </QueryClientProvider>

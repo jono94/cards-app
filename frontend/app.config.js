@@ -14,6 +14,7 @@ export default ({ config }) => {
       ...config.extra,
       apiUrl: getApiUrl(),
       environment: getEnvironment(),
+      firebaseAuthEmulatorUrl: getFirebaseAuthEmulatorUrl(),
     },
   };
 };
@@ -44,4 +45,9 @@ const getEnvironment = () => {
   if (IS_DEV) return "development";
   if (IS_PREVIEW) return "staging";
   return "production";
+};
+
+const getFirebaseAuthEmulatorUrl = () => {
+  if (IS_DEV) return process.env.FIREBASE_AUTH_EMULATOR_URL;
+  return undefined;
 };
