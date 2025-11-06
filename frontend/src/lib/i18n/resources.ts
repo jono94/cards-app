@@ -48,6 +48,7 @@ export const resources = {
         title: "Verify your email",
         description: "Please check your inbox and click the link to verify your email address.",
         resendEmail: "Didn't receive the email? Resend",
+        signOutInsteadOfVerifyingEmail: "Go back and Sign In as another user",
       },
       settings: {
         preferences: "Preferences",
@@ -125,6 +126,7 @@ export const resources = {
         description:
           "Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu dirección de email.",
         resendEmail: "¿No recibiste el email? Reenviar",
+        signOutInsteadOfVerifyingEmail: "Volver y Iniciar sesión como otro usuario",
       },
       settings: {
         preferences: "Preferencias",

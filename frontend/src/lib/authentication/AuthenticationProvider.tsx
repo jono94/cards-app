@@ -1,14 +1,18 @@
 import "@/src/init/firebase";
-import { createContext, PropsWithChildren, useState, useContext } from "react";
+import { createContext, PropsWithChildren, useState, useContext, useEffect, useRef } from "react";
 import * as FirebaseAuth from "firebase/auth";
 import { createURL } from "expo-linking";
 
 type AuthenticationContextType = {
   user: FirebaseAuth.User | null;
-  emailVerified: boolean;
+  loading: boolean;
+  loggedOut: boolean;
+  loggedIn: boolean;
+  emailVerifying: boolean;
+  loggedInVerifiedEmail: boolean;
   signInEmailAndPassword: (email: string, password: string) => Promise<boolean>;
   signUpEmailAndPassword: (email: string, password: string) => Promise<boolean>;
-  resendEmailVerification: () => Promise<boolean>;
+  resendEmailVerification: (user: FirebaseAuth.User) => Promise<boolean>;
   signOut: () => Promise<boolean>;
 };
 
@@ -23,18 +27,36 @@ export function useAuthentication() {
   return value;
 }
 
+export enum AuthStatus {
+  loading = "LOADING",
+  loggedOut = "LOGGED_OUT",
+  verifyingEmail = "VERIFYING_EMAIL",
+  loggedInVerifiedEmail = "LOGGED_IN_VERIFIED_EMAIL",
+}
+
 export function AuthenticationProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<FirebaseAuth.User | null>(null);
-  const [emailVerified, setEmailVerified] = useState(false);
+  const [authStatus, setAuthStatus] = useState<AuthStatus>(AuthStatus.loading);
 
   const auth = FirebaseAuth.getAuth();
 
-  FirebaseAuth.onAuthStateChanged(auth, (user) => {
-    console.log("auth state changed", user);
-    setUser(user);
-    setEmailVerified(user?.emailVerified ?? false);
-    if (user && !user.emailVerified) sendEmailVerification();
-  });
+  useEffect(() => {
+    const auth = FirebaseAuth.getAuth();
+    const unsubscribe = FirebaseAuth.onAuthStateChanged(auth, (user) => {
+      setUser(user);
+
+      if (!user) {
+        setAuthStatus(AuthStatus.loggedOut);
+      } else if (!user.emailVerified) {
+        setAuthStatus(AuthStatus.verifyingEmail);
+        sendEmailVerification(user);
+      } else {
+        setAuthStatus(AuthStatus.loggedInVerifiedEmail);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   async function signInEmailAndPassword(email: string, password: string): Promise<boolean> {
     try {
@@ -56,13 +78,7 @@ export function AuthenticationProvider({ children }: PropsWithChildren) {
     }
   }
 
-  async function sendEmailVerification(): Promise<boolean> {
-    if (!user) {
-      // TODO: Show error to user
-      console.error("User not found");
-      return false;
-    }
-
+  async function sendEmailVerification(user: FirebaseAuth.User): Promise<boolean> {
     const actionCodeSettings: FirebaseAuth.ActionCodeSettings = {
       url: createURL("/verify-email"),
       handleCodeInApp: true,
@@ -92,7 +108,13 @@ export function AuthenticationProvider({ children }: PropsWithChildren) {
     <AuthenticationContext.Provider
       value={{
         user,
-        emailVerified,
+        loading: authStatus === AuthStatus.loading,
+        loggedOut: authStatus === AuthStatus.loggedOut,
+        loggedIn:
+          authStatus === AuthStatus.loggedInVerifiedEmail ||
+          authStatus === AuthStatus.verifyingEmail,
+        emailVerifying: authStatus === AuthStatus.verifyingEmail,
+        loggedInVerifiedEmail: authStatus === AuthStatus.loggedInVerifiedEmail,
         signInEmailAndPassword,
         signUpEmailAndPassword,
         resendEmailVerification: sendEmailVerification,
