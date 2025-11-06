@@ -15,6 +15,7 @@ services:
 
   backend:
     build: .
+    restart: unless-stopped
     depends_on:
       - psql_db
     # Static environment variables
@@ -36,6 +37,17 @@ services:
       # Mock data for in memory repository
       - ./data/:/app/data/
 
+  gcp_emulator:
+    build:
+      context: ./gcp_emulators
+    restart: unless-stopped
+    ports:
+      - "4000:4000" # Emulator UI
+      - "9099:9099" # Auth
+    volumes:
+      - gcp_emulator_data:/data/emulator_data
+
 volumes:
   postgres_data:
   image_files:
+  gcp_emulator_data:
