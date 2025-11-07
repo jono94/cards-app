@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import ImagePicker from "@/src/components/common/ImagePicker";
 import { Input } from "@/src/components/ui/input";
 import { Text } from "@/src/components/ui/text";
@@ -54,9 +54,32 @@ export default function CardTemplateCreateForm({
   });
 
   const onSubmitInternal = (data: Inputs) => {
-    if (!data.image?.file || !defaultImageUri) {
+    let imageFile: File | undefined = undefined;
+
+    if (data.image) {
+      // https://docs.expo.dev/versions/latest/sdk/imagepicker/#imagepickerasset
+      if (Platform.OS === "web") {
+        // On web, the image asset has a 'file' property
+        imageFile = data.image.file;
+      } else {
+        // On mobile, we need to create a File-like object from the URI
+        // React Native's FormData accepts objects with { uri, type, name }
+        const fileName = data.image.fileName || `photo_${Date.now()}.jpg`;
+        const fileType = data.image.mimeType || "image/jpeg";
+
+        // Not sure where this structure comes from, but its online in many places.
+        // Also note that if I explicity pass this type to the FormData.append() method,
+        // it complains about the type, so this is cast as a File for TypeScript. This
+        // works, but I an not 100% sure if it is the correct way to do this.
+        imageFile = {
+          uri: data.image.uri,
+          type: fileType,
+          name: fileName,
+        } as any as File; // Cast as File for TypeScript, but it's actually the RN format
+      }
     }
-    onSubmit(data.name, data.description, data.image?.file);
+
+    onSubmit(data.name, data.description, imageFile);
   };
 
   const onCancel = () => {

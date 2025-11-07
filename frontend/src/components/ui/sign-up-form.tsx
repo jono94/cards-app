@@ -12,7 +12,7 @@ import { Label } from "@/src/components/ui/label";
 import { Separator } from "@/src/components/ui/separator";
 import { Text } from "@/src/components/ui/text";
 import * as React from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
 
@@ -112,9 +112,9 @@ export function SignUpForm({ onSignUp, onGoToSignIn, socials = [] }: Props) {
           {/* Go to sign in */}
           <Text className="text-center text-sm">
             {t("signUp.alreadyHaveAnAccount")}{" "}
-            <Pressable onPress={onGoToSignIn}>
-              <Text className="text-sm underline underline-offset-4">{t("signUp.signIn")}</Text>
-            </Pressable>
+            <Text className="text-sm underline underline-offset-4" onPress={onGoToSignIn}>
+              {t("signUp.signIn")}
+            </Text>
           </Text>
 
           {/* Socials */}

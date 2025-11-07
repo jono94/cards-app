@@ -97,8 +97,10 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={NAV_THEME[colorScheme as "light" | "dark"]}>
-        <AuthenticationProvider>{children}</AuthenticationProvider>
-        <PortalHost />
+        <AuthenticationProvider>
+          {children}
+          <PortalHost />
+        </AuthenticationProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

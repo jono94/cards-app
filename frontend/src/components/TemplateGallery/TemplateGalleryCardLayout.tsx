@@ -18,7 +18,7 @@ export default function TemplateGalleryCardLayout({ cardTemplates }: Props) {
     <View className="flex-row flex-wrap justify-start p-1">
       {cardTemplates.map((cardTemplate) => (
         <View key={cardTemplate.uuid} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-          <Card className="m-1 h-[95%]">
+          <Card className="m-1 sm:h-[95%]">
             <CardContent className="p-0">
               <Pressable
                 className="w-full aspect-video"
