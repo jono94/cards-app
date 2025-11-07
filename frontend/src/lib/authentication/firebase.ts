@@ -37,3 +37,5 @@ const auth = getAuth(firebaseApp);
 if (settings.firebaseAuthEmulatorUrl) {
   connectAuthEmulator(auth, settings.firebaseAuthEmulatorUrl);
 }
+
+export { auth };

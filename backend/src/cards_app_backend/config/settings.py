@@ -28,6 +28,12 @@ class Settings(BaseSettings):
     )
     image_base_url: str | None = Field(default=None, description="Base URL to the image files (prefix to append to the DB image URI)")
 
+    # Authentication settings
+    gcp_project_id: str = Field(default="cards-app-development", description="GCP project ID for the GCP Admin SDK")
+    firebase_auth_emulator_host: str | None = Field(
+        default=None, description="URL to the Firebase Auth emulator (without http://). Note this MUST be an environment variable"
+    )
+
     # API settings
     cors_origins: list[str] = Field(default=["http://localhost:8081"])
 

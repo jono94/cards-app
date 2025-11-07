@@ -9,4 +9,7 @@ VOLUME /data/emulator_data
 
 COPY ./firebase.json /firebase.json
 
-ENTRYPOINT ["firebase", "emulators:start", "--project=cards-app-backend-dev", "--import=/data/emulator_data/firebase", "--export-on-exit=/data/emulator_data/firebase"]
+ARG PROJECT_ID=cards-app-dev
+ENV PROJECT_ID=$PROJECT_ID
+
+ENTRYPOINT ["sh", "-c", "firebase emulators:start --project=\"$PROJECT_ID\" --import=/data/emulator_data/firebase --export-on-exit=/data/emulator_data/firebase"]

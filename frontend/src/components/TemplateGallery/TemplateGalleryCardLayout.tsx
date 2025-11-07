@@ -4,8 +4,8 @@ import { Text } from "@/src/components/ui/text";
 import { Card, CardContent, CardFooter } from "@/src/components/ui/card";
 import CategoryBadge from "@/src/components/common/CategoryBadge";
 import LikeBadge from "@/src/components/common/LikeBadge";
-import { Image } from "expo-image";
 import { useRouter } from "expo-router";
+import AuthorizedImage from "@/src/components/common/AuthorizedImage";
 
 interface Props {
   cardTemplates: CardTemplate[];
@@ -24,7 +24,7 @@ export default function TemplateGalleryCardLayout({ cardTemplates }: Props) {
                 className="w-full aspect-video"
                 onPress={() => router.push(`/template-gallery/${cardTemplate.uuid}`)}
               >
-                <Image
+                <AuthorizedImage
                   style={{
                     width: "100%",
                     height: "100%",

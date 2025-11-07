@@ -7,6 +7,7 @@ authors = [{ name = "Jono Delbridge", email = "jonodel949@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.120.4",
+    "firebase-admin>=7.1.0",
     "pydantic-settings>=2.11.0",
     "python-multipart>=0.0.20",
     "uvicorn>=0.38.0",

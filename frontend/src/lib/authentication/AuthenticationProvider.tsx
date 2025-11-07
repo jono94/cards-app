@@ -1,10 +1,24 @@
-import "@/src/init/firebase";
-import { createContext, PropsWithChildren, useState, useContext, useEffect, useRef } from "react";
+import "@/src/lib/authentication/firebase";
+import { createContext, PropsWithChildren, useState, useContext, useEffect } from "react";
 import * as FirebaseAuth from "firebase/auth";
 import { createURL } from "expo-linking";
 
+// Standalone function to get ID token (can be called outside React components)
+export async function getIdToken(): Promise<string | null> {
+  const auth = FirebaseAuth.getAuth();
+  const user = auth.currentUser;
+  if (!user) return null;
+  try {
+    return await user.getIdToken();
+  } catch (error) {
+    console.error("Failed to get ID token:", error);
+    return null;
+  }
+}
+
 type AuthenticationContextType = {
   user: FirebaseAuth.User | null;
+  idToken: string | null;
   loading: boolean;
   loggedOut: boolean;
   loggedIn: boolean;
@@ -36,14 +50,17 @@ export enum AuthStatus {
 
 export function AuthenticationProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<FirebaseAuth.User | null>(null);
+  const [idToken, setIdToken] = useState<string | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>(AuthStatus.loading);
 
   const auth = FirebaseAuth.getAuth();
 
   useEffect(() => {
     const auth = FirebaseAuth.getAuth();
-    const unsubscribe = FirebaseAuth.onAuthStateChanged(auth, (user) => {
+    const unsubscribe = FirebaseAuth.onAuthStateChanged(auth, async (user) => {
       setUser(user);
+      const idToken = await user?.getIdToken();
+      setIdToken(idToken ?? null);
 
       if (!user) {
         setAuthStatus(AuthStatus.loggedOut);
@@ -108,6 +125,7 @@ export function AuthenticationProvider({ children }: PropsWithChildren) {
     <AuthenticationContext.Provider
       value={{
         user,
+        idToken,
         loading: authStatus === AuthStatus.loading,
         loggedOut: authStatus === AuthStatus.loggedOut,
         loggedIn:
