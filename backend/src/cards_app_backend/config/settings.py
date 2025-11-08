@@ -1,13 +1,14 @@
+from typing import Self
 from enum import StrEnum
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class RepositoryType(StrEnum):
     IN_MEMORY = "in_memory"
-    POSTGRES = "postgres"
+    POSTGRES_FILE_SYSTEM = "postgres_file_system"
 
 
 class Settings(BaseSettings):
@@ -26,6 +27,17 @@ class Settings(BaseSettings):
     initial_in_memory_image_files_directory: str | None = Field(
         default=None, description="Directory path to the initial image files for the in memory repository"
     )
+    file_system_storage_directory: str | None = Field(
+        default=None, description="Directory path to the file system storage for the file system repository"
+    )
+
+    @model_validator(mode="after")
+    def validate_repository_type(self) -> Self:
+        if self.repository_type == RepositoryType.POSTGRES_FILE_SYSTEM:
+            if self.file_system_storage_directory is None:
+                raise ValueError("File system storage directory is required for the file system repository")
+
+        return self
 
     # Authentication settings
     gcp_project_id: str = Field(default="cards-app-development", description="GCP project ID for the GCP Admin SDK")

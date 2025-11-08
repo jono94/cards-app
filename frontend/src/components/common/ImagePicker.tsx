@@ -5,8 +5,8 @@ import { Icon } from "@/src/components/ui/icon";
 import { Image, SquarePen } from "lucide-react-native";
 import * as ExpoImagePicker from "expo-image-picker";
 import { useState } from "react";
-import * as ExpoImage from "expo-image";
 import { useTranslation } from "react-i18next";
+import AuthorizedImage from "./AuthorizedImage";
 
 interface Props {
   onImagePicked: React.Dispatch<React.SetStateAction<ExpoImagePicker.ImagePickerAsset | null>>;
@@ -34,7 +34,7 @@ export default function ImagePicker({ onImagePicked, initialImageUri }: Props) {
     <Card className="flex-1 justify-center items-center">
       {displayImageUri && (
         <>
-          <ExpoImage.Image
+          <AuthorizedImage
             source={{ uri: displayImageUri }}
             style={{ width: "100%", height: "100%" }}
             className="w-full h-full"

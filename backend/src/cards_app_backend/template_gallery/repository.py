@@ -10,8 +10,6 @@ from .exceptions import AlreadyExistsException, NotExistsException
 
 
 class CardTemplateRepositoryInterface(Protocol):
-    templates: list[CardTemplate]
-
     @abstractmethod
     async def list_card_template(self) -> list[CardTemplate]:
         pass
@@ -82,8 +80,6 @@ class InMemoryCardTemplateRepository(CardTemplateRepositoryInterface):
 
 
 class FileRepositoryInterface(Protocol):
-    files: dict[str, ImageFile]
-
     @abstractmethod
     async def get_file(self, file_name: str) -> ImageFile:
         pass
@@ -139,3 +135,43 @@ class InMemoryFileRepository(FileRepositoryInterface):
         if file_name not in self.files:
             raise NotExistsException(f"File with image file name {file_name} not found")
         del self.files[file_name]
+
+
+class FileSystemFileRepository(FileRepositoryInterface):
+    def __init__(self, storage_directory: str):
+        self.storage_directory_path = pathlib.Path(storage_directory)
+
+    def _get_file_path(self, file_name: str) -> pathlib.Path:
+        return self.storage_directory_path / pathlib.Path(file_name)
+
+    async def get_file(self, file_name: str) -> ImageFile:
+        # Get the full file path and check if it exists
+        file_path = self._get_file_path(file_name)
+        if not file_path.exists():
+            raise NotExistsException(f"File with image file name {file_name} not found")
+
+        # Read the file
+        with open(file_path, "rb") as f:
+            return ImageFile.create_from_filename(file_name, f.read())
+
+    async def get_file_path(self, file_name: str) -> str:
+        return str(self._get_file_path(file_name))
+
+    async def store_file(self, file: ImageFile) -> None:
+        # Get the full file path and check if it exists
+        file_path = self._get_file_path(file.name)
+        if file_path.exists():
+            raise AlreadyExistsException(f"File with image file name {file.name} already exists")
+
+        # Create the file
+        with open(file_path, "wb") as f:
+            f.write(file.content)
+
+    async def delete_file(self, file_name: str) -> None:
+        # Get the full file path and check if it exists
+        file_path = self._get_file_path(file_name)
+        if not file_path.exists():
+            raise NotExistsException(f"File with image file name {file_name} not found")
+
+        # Delete the file
+        file_path.unlink()

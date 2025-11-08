@@ -21,6 +21,7 @@ services:
     # Static environment variables
     environment:
       DATABASE_URL: postgresql://postgres:postgres@psql_db:5432/cards_app_backend
+      FILE_SYSTEM_STORAGE_DIRECTORY: /data/images/
       GCP_PROJECT_ID: cards-app-dev
       FIREBASE_AUTH_EMULATOR_HOST: gcp_emulator:9099  # Does not include the http:// prefix
     # Dynamic environment variables
