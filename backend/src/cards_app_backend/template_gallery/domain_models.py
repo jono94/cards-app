@@ -1,7 +1,10 @@
+import mimetypes
 import uuid
 from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field, field_validator
+
+from cards_app_backend.template_gallery.exceptions import InvalidDataException
 
 
 class CardTemplate(BaseModel):
@@ -10,37 +13,44 @@ class CardTemplate(BaseModel):
     description: str
     categories: list[str]
     image_file_name: str  # File path in the file system
-    image_uri_base: str | None = None  # Base URL to the image files (prefix to append to the DB image URI)
     likes: int = 0
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
-    @property
-    def image_uri(self) -> str:
-        if self.image_uri_base:
-            return f"{self.image_uri_base}{self.image_file_name}"
-        return self.image_file_name
-
 
 class ImageFile(BaseModel):
-    type: str
+    uuid: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    mimetype: str
     content: bytes
-    image_file_name: str | None = None
 
-    @field_validator("type", mode="after")
+    @staticmethod
+    def create_from_filename(filename: str, content: bytes) -> "ImageFile":
+        uuid = filename.split(".")[0]
+
+        mimetype = mimetypes.guess_type(filename)[0]
+        if mimetype is None:
+            raise InvalidDataException("Invalid image file name, could not guess the mimetype")
+
+        return ImageFile(uuid=uuid, mimetype=mimetype, content=content)
+
+    @field_validator("mimetype", mode="after")
     @classmethod
-    def validate_type(cls, value: str) -> str:
+    def validate_mimetype(cls, value: str) -> str:
         if value not in ["image/png", "image/jpeg", "image/jpg"]:
-            raise ValueError("Invalid image type")
+            raise ValueError(f"Invalid image mimetype: {value}")
         return value
 
     @property
     def extension(self) -> str:
-        if self.type == "image/png":
-            return ".png"
-        elif self.type == "image/jpeg":
-            return ".jpeg"
-        elif self.type == "image/jpg":
-            return ".jpg"
+        if self.mimetype == "image/png":
+            return "png"
+        elif self.mimetype == "image/jpeg":
+            return "jpeg"
+        elif self.mimetype == "image/jpg":
+            return "jpg"
         else:
             raise ValueError("Invalid image type")
+
+    @property
+    def name(self) -> str:
+        return f"{self.uuid}.{self.extension}"

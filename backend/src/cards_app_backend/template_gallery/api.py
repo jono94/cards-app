@@ -16,7 +16,7 @@ class CardTemplateResponse(BaseModel):
     categories: list[str]
     name: str
     description: str
-    image_uri: str
+    image_file_name: str
     likes: int
     created_at: datetime
     updated_at: datetime
@@ -76,8 +76,8 @@ async def delete_card_template(card_template_id: str) -> None:
 
 
 ### GET Image
-@template_gallery_api.get("/images/{image_uri}")
-async def get_image(image_uri: str) -> FileResponse:
+@template_gallery_api.get("/images/{image_file_name}")
+async def get_image(image_file_name: str) -> FileResponse:
     application_service = Factory.create_card_template_application_service()
-    file_path = await application_service.get_image_path(image_uri)
+    file_path = await application_service.get_image_path(image_file_name)
     return FileResponse(file_path)

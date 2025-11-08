@@ -11,7 +11,7 @@ class Factory:
     @staticmethod
     def create_card_template_repository() -> CardTemplateRepositoryInterface:
         if settings.repository_type == RepositoryType.IN_MEMORY:
-            return InMemoryCardTemplateRepository(settings.initial_in_memory_data_file, settings.image_base_url)
+            return InMemoryCardTemplateRepository(settings.initial_in_memory_data_file)
         elif settings.repository_type == RepositoryType.POSTGRES:
             raise ValueError("Postgres repository type is not supported yet")
         else:
@@ -20,7 +20,7 @@ class Factory:
     @staticmethod
     def create_file_repository() -> FileRepositoryInterface:
         if settings.repository_type == RepositoryType.IN_MEMORY:
-            return InMemoryFileRepository(settings.initial_in_memory_image_files_directory, settings.image_base_url)
+            return InMemoryFileRepository(settings.initial_in_memory_image_files_directory)
         elif settings.repository_type == RepositoryType.POSTGRES:
             raise ValueError("Postgres repository type is not supported yet")
         else:

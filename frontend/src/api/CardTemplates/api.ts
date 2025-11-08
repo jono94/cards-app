@@ -8,7 +8,8 @@ export interface CardTemplate {
   categories: string[];
   name: string;
   description: string;
-  imageUri: string;
+  imageFileName: string;
+  imageUri: string; // Injected for convenience based on the backend API URL
   likes: number;
   createdAt: Date;
   updatedAt: Date;
@@ -19,19 +20,26 @@ interface CardTemplateDTO {
   categories: string[];
   name: string;
   description: string;
-  image_uri: string;
+  image_file_name: string;
   likes: number;
   created_at: string;
   updated_at: string;
 }
 
 function toCardTemplate(dto: CardTemplateDTO): CardTemplate {
+  let baseUrl: string;
+  if (api.defaults.baseURL?.endsWith("/")) {
+    baseUrl = api.defaults.baseURL.slice(0, -1);
+  } else {
+    baseUrl = api.defaults.baseURL ?? "";
+  }
   return {
     uuid: dto.uuid,
     categories: dto.categories,
     name: dto.name,
     description: dto.description,
-    imageUri: dto.image_uri,
+    imageFileName: dto.image_file_name,
+    imageUri: `${baseUrl}/v1/template-gallery/images/${dto.image_file_name}`,
     likes: dto.likes,
     createdAt: new Date(dto.created_at),
     updatedAt: new Date(dto.updated_at),

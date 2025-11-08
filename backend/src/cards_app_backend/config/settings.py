@@ -26,7 +26,6 @@ class Settings(BaseSettings):
     initial_in_memory_image_files_directory: str | None = Field(
         default=None, description="Directory path to the initial image files for the in memory repository"
     )
-    image_base_url: str | None = Field(default=None, description="Base URL to the image files (prefix to append to the DB image URI)")
 
     # Authentication settings
     gcp_project_id: str = Field(default="cards-app-development", description="GCP project ID for the GCP Admin SDK")
