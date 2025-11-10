@@ -1,12 +1,17 @@
 import json
 import pathlib
+import uuid
 from abc import abstractmethod
 from copy import deepcopy
 from tempfile import NamedTemporaryFile
 from typing import Protocol
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from .domain_models import CardTemplate, ImageFile
 from .exceptions import AlreadyExistsException, NotExistsException
+from .db_models import CardTemplateModel, CardTemplateCategoryModel
 
 
 class CardTemplateRepositoryInterface(Protocol):
@@ -77,6 +82,81 @@ class InMemoryCardTemplateRepository(CardTemplateRepositoryInterface):
 
         # Delete the card template
         self.templates[:] = [template for template in self.templates if template.uuid != card_template.uuid]
+
+
+def card_template_orm_to_domain(card_template_orm_model: CardTemplateModel) -> CardTemplate:
+    return CardTemplate(
+        uuid=card_template_orm_model.uuid,
+        name=card_template_orm_model.name,
+        description=card_template_orm_model.description,
+        categories=[category.name for category in card_template_orm_model.categories],
+        image_file_name=card_template_orm_model.image_file_name,
+        likes=card_template_orm_model.likes,
+        created_at=card_template_orm_model.created_at,
+        updated_at=card_template_orm_model.updated_at,
+    )
+
+
+class PostgresCardTemplateRepository(CardTemplateRepositoryInterface):
+    def __init__(self, sql_session: AsyncSession):
+        self.sql_session = sql_session
+
+    async def _get_card_template_orm_model(self, card_template_id: str) -> CardTemplateModel:
+        card_template_orm_model = await self.sql_session.get(
+            CardTemplateModel, card_template_id, options=[selectinload(CardTemplateModel.categories)]
+        )
+        if not card_template_orm_model:
+            raise NotExistsException(f"Card template with id {card_template_id} not found")
+        return card_template_orm_model
+
+    async def list_card_template(self) -> list[CardTemplate]:
+        stmt = select(CardTemplateModel).options(selectinload(CardTemplateModel.categories)).order_by(CardTemplateModel.created_at.desc())
+        result = await self.sql_session.execute(stmt)
+        card_template_orm_models = result.scalars().all()
+
+        return [card_template_orm_to_domain(card_template_orm_model) for card_template_orm_model in card_template_orm_models]
+
+    async def get_card_template(self, card_template_id: str) -> CardTemplate:
+        card_template_orm_model = await self._get_card_template_orm_model(card_template_id)
+        return card_template_orm_to_domain(card_template_orm_model)
+
+    async def create_card_template(self, card_template: CardTemplate) -> CardTemplate:
+        card_template_orm_model = CardTemplateModel(
+            uuid=card_template.uuid,
+            name=card_template.name,
+            description=card_template.description,
+            categories=[CardTemplateCategoryModel(uuid=str(uuid.uuid4()), name=category) for category in card_template.categories],
+            image_file_name=card_template.image_file_name,
+            likes=card_template.likes,
+            created_at=card_template.created_at,
+            updated_at=card_template.updated_at,
+        )
+
+        self.sql_session.add(card_template_orm_model)
+        await self.sql_session.flush()
+
+        return card_template_orm_to_domain(card_template_orm_model)
+
+    async def update_card_template(self, card_template: CardTemplate) -> CardTemplate:
+        card_template_orm_model = await self._get_card_template_orm_model(card_template.uuid)
+
+        card_template_orm_model.name = card_template.name
+        card_template_orm_model.description = card_template.description
+        card_template_orm_model.categories = [
+            CardTemplateCategoryModel(uuid=str(uuid.uuid4()), name=category) for category in card_template.categories
+        ]
+        card_template_orm_model.image_file_name = card_template.image_file_name
+        card_template_orm_model.likes = card_template.likes
+        card_template_orm_model.updated_at = card_template.updated_at
+
+        await self.sql_session.flush()
+        return card_template_orm_to_domain(card_template_orm_model)
+
+    async def delete_card_template(self, card_template: CardTemplate) -> None:
+        card_template_orm_model = await self._get_card_template_orm_model(card_template.uuid)
+
+        await self.sql_session.delete(card_template_orm_model)
+        await self.sql_session.flush()
 
 
 class FileRepositoryInterface(Protocol):

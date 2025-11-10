@@ -1,4 +1,7 @@
 from cards_app_backend.config.settings import RepositoryType, get_settings
+from cards_app_backend.config.dependencies.sql_database import get_database_session_factory
+from sqlalchemy.ext.asyncio import AsyncSession
+from collections.abc import AsyncGenerator
 
 from .application_service import CardTemplateApplicationService
 from .repository import (
@@ -7,6 +10,7 @@ from .repository import (
     InMemoryCardTemplateRepository,
     InMemoryFileRepository,
     FileSystemFileRepository,
+    PostgresCardTemplateRepository,
 )
 from .unit_of_work import InMemoryUnitOfWork, UnitOfWorkInterface, PostgresFileSystemUnitOfWork
 
@@ -15,11 +19,12 @@ settings = get_settings()
 
 class Factory:
     @staticmethod
-    def create_card_template_repository() -> CardTemplateRepositoryInterface:
+    def create_card_template_repository(sql_session: AsyncSession | None = None) -> CardTemplateRepositoryInterface:
         if settings.repository_type == RepositoryType.IN_MEMORY:
             return InMemoryCardTemplateRepository(settings.initial_in_memory_data_file)
         elif settings.repository_type == RepositoryType.POSTGRES_FILE_SYSTEM:
-            return InMemoryCardTemplateRepository(settings.initial_in_memory_data_file)  # FIXME: Implement Postgres
+            assert sql_session is not None
+            return PostgresCardTemplateRepository(sql_session)
         else:
             raise ValueError(f"Invalid repository type: {settings.repository_type}")
 
@@ -38,10 +43,15 @@ class Factory:
         if settings.repository_type == RepositoryType.IN_MEMORY:
             return InMemoryUnitOfWork(Factory.create_card_template_repository(), Factory.create_file_repository())
         elif settings.repository_type == RepositoryType.POSTGRES_FILE_SYSTEM:
-            return PostgresFileSystemUnitOfWork(Factory.create_card_template_repository(), Factory.create_file_repository())
+            assert settings.sql_database_url is not None
+            sql_session = get_database_session_factory(settings.sql_database_url)()
+            return PostgresFileSystemUnitOfWork(
+                sql_session, Factory.create_card_template_repository(sql_session), Factory.create_file_repository()
+            )
         else:
             raise ValueError(f"Invalid repository type: {settings.repository_type}")
 
     @staticmethod
-    def create_card_template_application_service() -> CardTemplateApplicationService:
-        return CardTemplateApplicationService(Factory.create_unit_of_work())
+    async def create_card_template_application_service() -> AsyncGenerator[CardTemplateApplicationService, None]:
+        async with Factory.create_unit_of_work() as uow:
+            yield CardTemplateApplicationService(uow)

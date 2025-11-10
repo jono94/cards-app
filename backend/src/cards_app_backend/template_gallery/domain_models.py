@@ -1,17 +1,25 @@
 import mimetypes
 import uuid
 from datetime import UTC, datetime
+from enum import StrEnum
 
 from pydantic import BaseModel, Field, field_validator
 
 from cards_app_backend.template_gallery.exceptions import InvalidDataException
 
 
+class CardTemplateCategory(StrEnum):
+    BIRTHDAY = "BIRTHDAY"
+    SYMPATHY = "SYMPATHY"
+    GET_WELL_SOON = "GET_WELL_SOON"
+    CONGRATULATIONS = "CONGRATULATIONS"
+
+
 class CardTemplate(BaseModel):
     uuid: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
     description: str
-    categories: list[str]
+    categories: list[CardTemplateCategory]
     image_file_name: str  # File path in the file system
     likes: int = 0
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

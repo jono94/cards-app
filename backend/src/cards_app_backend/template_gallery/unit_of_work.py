@@ -1,8 +1,14 @@
 from abc import abstractmethod
 from copy import deepcopy
 from typing import Protocol
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from .repository import CardTemplateRepositoryInterface, FileRepositoryInterface, InMemoryCardTemplateRepository, InMemoryFileRepository
+from cards_app_backend.template_gallery.repository import (
+    CardTemplateRepositoryInterface,
+    FileRepositoryInterface,
+    InMemoryCardTemplateRepository,
+    InMemoryFileRepository,
+)
 
 
 class UnitOfWorkInterface(Protocol):
@@ -60,12 +66,17 @@ class InMemoryUnitOfWork(UnitOfWorkInterface):
 
 
 class PostgresFileSystemUnitOfWork(UnitOfWorkInterface):
-    def __init__(self, card_template_repository: CardTemplateRepositoryInterface, file_repository: FileRepositoryInterface):
+    def __init__(
+        self,
+        sql_session: AsyncSession,
+        card_template_repository: CardTemplateRepositoryInterface,
+        file_repository: FileRepositoryInterface,
+    ):
+        self.sql_session = sql_session
         self.card_template_repository = card_template_repository
         self.file_repository = file_repository
 
     async def __aenter__(self) -> "PostgresFileSystemUnitOfWork":
-        # TODO: Add transaction management
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:
@@ -75,7 +86,7 @@ class PostgresFileSystemUnitOfWork(UnitOfWorkInterface):
             await self.commit()
 
     async def commit(self) -> None:
-        pass
+        await self.sql_session.commit()
 
     async def rollback(self) -> None:
-        pass
+        await self.sql_session.rollback()

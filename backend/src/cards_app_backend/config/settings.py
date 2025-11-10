@@ -36,8 +36,21 @@ class Settings(BaseSettings):
         if self.repository_type == RepositoryType.POSTGRES_FILE_SYSTEM:
             if self.file_system_storage_directory is None:
                 raise ValueError("File system storage directory is required for the file system repository")
+            if self.sql_database_url is None:
+                raise ValueError("SQL database URL is required for the file system repository")
 
         return self
+
+    # Postgres settings
+    postgres_username: str = Field(default="postgres", description="Username for the Postgres database")
+    postgres_password: str = Field(default="postgres", description="Password for the Postgres database")
+    postgres_host: str = Field(default="localhost", description="Host for the Postgres database")
+    postgres_port: int = Field(default=5432, description="Port for the Postgres database")
+    postgres_database_name: str = Field(default="cards_app_backend", description="Database name for the Postgres database")
+
+    @property
+    def sql_database_url(self) -> str:
+        return f"postgresql+asyncpg://{self.postgres_username}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_database_name}"
 
     # Authentication settings
     gcp_project_id: str = Field(default="cards-app-development", description="GCP project ID for the GCP Admin SDK")
